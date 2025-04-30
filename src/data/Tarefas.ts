@@ -1,0 +1,17 @@
+export  const tarefa  = [
+    { id: 1, titulo: 'Estudar Matemática', descricao: 'Revisar equações do 2º grau' },
+    { id: 2, titulo: 'Trabalho de História', descricao: 'Finalizar pesquisa sobre a Guerra Fria' },
+    { id: 3, titulo: 'Ler Capítulo de Biologia', descricao: 'Células eucariontes vs. procariontes' },
+    { id: 4, titulo: 'Projeto de Física', descricao: 'Construir modelo de circuito elétrico' },
+    { id: 5, titulo: 'Trabalho de Química', descricao: 'Estudar tabela periódica' },
+    { id: 6, titulo: 'Estudar para a prova de Geografia', descricao: 'Revisar mapa mundi e rios' },
+    { id: 7, titulo: 'Ler livro de Literatura', descricao: 'Analisar as obras de Machado de Assis' },
+    { id: 8, titulo: 'Fazer exercícios de Inglês', descricao: 'Praticar verbos irregulares' },
+    { id: 9, titulo: 'Revisão para a prova de Português', descricao: 'Estudar regras de gramática' },
+    { id: 10, titulo: 'Fazer resumo sobre Filosofia', descricao: 'Estudar principais filósofos' },
+    { id: 11, titulo: 'Trabalho de Arte', descricao: 'Desenhar a perspectiva de um prédio' },
+    { id: 12, titulo: 'Revisão para a prova de História', descricao: 'Estudar Revolução Francesa' },
+    { id: 13, titulo: 'Organizar material de estudo', descricao: 'Separar livros e anotações' },
+    { id: 14, titulo: 'Escrever redação sobre Meio Ambiente', descricao: 'Trabalhar no tema de preservação ambiental' },
+    { id: 15, titulo: 'Resolver questões de Matemática', descricao: 'Praticar problemas de álgebra' },
+  ];
