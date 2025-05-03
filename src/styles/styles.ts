@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     width: 130,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   botaoTexto: {
     color: '#fff',
@@ -68,13 +68,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-
   area: {
     flex: 1,
     marginBottom: 10,
     padding: 10,
   },
-  
   card: {
     backgroundColor: '#fff',
     borderRadius: 8,
@@ -86,18 +84,67 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  
   cardTitulo: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  
   cardDesc: {
     fontSize: 14,
     color: '#555',
   },
 
+  // Estilos do Modal
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+  },
+  modalTitulo: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 10,
+    padding: 8,
+    borderRadius: 5,
+  },
+  modalTextarea: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 10,
+    padding: 8,
+    height: 80,
+    borderRadius: 5,
+    textAlignVertical: 'top',
+  },
+  modalSalvarBotao: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+  },
+  modalSalvarTexto: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  modalCancelarBotao: {
+    marginTop: 10,
+  },
+  modalCancelarTexto: {
+    color: 'red',
+    textAlign: 'center',
+  },
 });
 
 export default styles;
