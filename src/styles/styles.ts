@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     color: '#555',
   },
 
-  // Estilos do Modal
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',

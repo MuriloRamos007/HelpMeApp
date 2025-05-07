@@ -1,7 +1,17 @@
-// database.ts
 import * as SQLite from 'expo-sqlite';
 
 let db: SQLite.SQLiteDatabase;
+
+export const resetarBancoDeDados = async () => {
+  if (!db) db = await SQLite.openDatabaseSync("tarefas.db");
+  try {
+    await db.execAsync(`DROP TABLE IF EXISTS tarefas`);
+    console.log("⚠️ Tabela 'tarefas' apagada com sucesso.");
+  } catch (error) {
+    console.error("Erro ao resetar banco de dados:", error);
+  }
+};
+
 
 export const dbinitialize = async () => {
   db = await SQLite.openDatabaseSync("tarefas.db");
@@ -54,7 +64,7 @@ export const popularBase = async () => {
 export const getTarefas = async (showFeitas: boolean) => {
   if (!db) db = await SQLite.openDatabaseSync("tarefas.db");
   try {
-    const filtro = showFeitas ? 1 : 0; // Se showFeitas for true, queremos tarefas feitas (feita = 1)
+    const filtro = showFeitas ? 1 : 0;
     const tarefas = await db.getAllAsync("SELECT * FROM tarefas WHERE feita = ?", [filtro]);
     return tarefas;
   } catch (error) {
@@ -83,7 +93,6 @@ export const marcarTarefaComoFeita = async (id: number) => {
   }
 };
 
-// Função para adicionar tarefa
 export const addTarefa = async (titulo: string, descricao: string) => {
   if (!db) db = await SQLite.openDatabaseSync("tarefas.db");
   try {

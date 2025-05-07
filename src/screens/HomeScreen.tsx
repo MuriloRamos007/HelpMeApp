@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Modal, TextInput, ActivityIndicator } from 'react-native';
-import { dbinitialize, getTarefas, marcarTarefaComoFeita, addTarefa } from '../database/database';
+import { dbinitialize, getTarefas, marcarTarefaComoFeita, addTarefa, deletarTarefa, resetarBancoDeDados  } from '../database/database';
 import styles from '../styles/styles';
 
 interface Tarefa {
   id: number;
   titulo: string;
   descricao: string;
-  feita: number; // 0 para pendente, 1 para feita
+  feita: number;
 }
 
 export default function HomeScreen() {
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showFeitas, setShowFeitas] = useState(false); // Controla se mostramos tarefas feitas ou pendentes
+  const [showFeitas, setShowFeitas] = useState(false);
 
-  // Modal e estados para adicionar nova tarefa
   const [modalVisible, setModalVisible] = useState(false);
   const [novoTitulo, setNovoTitulo] = useState('');
   const [novaDescricao, setNovaDescricao] = useState('');
 
-  // Carregar tarefas do banco de dados com base em `showFeitas`
   useEffect(() => {
     const setup = async () => {
       try {
-        await dbinitialize(); // Inicializa o banco de dados
-        const tarefas = await getTarefas(showFeitas); // Passa `showFeitas` para buscar as tarefas certas
-        setTarefas(tarefas); // Atualiza o estado com as tarefas
+        // await resetarBancoDeDados();
+        await dbinitialize();
+        const tarefas = await getTarefas(showFeitas);
+        setTarefas(tarefas);
       } catch (error) {
         console.error("Erro ao inicializar banco de dados:", error);
       } finally {
@@ -34,14 +33,13 @@ export default function HomeScreen() {
       }
     };
     setup();
-  }, [showFeitas]); // Atualiza as tarefas sempre que `showFeitas` mudar
+  }, [showFeitas]);
 
   const marcarComoFeita = async (id: number) => {
     try {
-      await marcarTarefaComoFeita(id); // Marca a tarefa como feita no banco
-      // Atualiza as tarefas após marcar como feita
+      await marcarTarefaComoFeita(id);
       const tarefasAtualizadas = await getTarefas(showFeitas);
-      setTarefas(tarefasAtualizadas); // Atualiza o estado com as tarefas
+      setTarefas(tarefasAtualizadas);
     } catch (error) {
       console.error('Erro ao marcar tarefa como feita:', error);
     }
@@ -50,32 +48,43 @@ export default function HomeScreen() {
   const handleSalvarTarefa = async () => {
     if (!novoTitulo.trim() || !novaDescricao.trim()) return;
 
-    await addTarefa(novoTitulo.trim(), novaDescricao.trim()); // Adiciona nova tarefa
-    const novasTarefas = await getTarefas(showFeitas); // Atualiza as tarefas
-    setTarefas(novasTarefas); // Atualiza o estado com as tarefas
+    await addTarefa(novoTitulo.trim(), novaDescricao.trim());
+    const novasTarefas = await getTarefas(showFeitas);
+    setTarefas(novasTarefas);
     setNovoTitulo('');
     setNovaDescricao('');
     setModalVisible(false);
   };
+
+  const excluirTarefa = async (id: number) => {
+    try {
+      await deletarTarefa(id);
+      const tarefasAtualizadas = await getTarefas(showFeitas);
+      setTarefas(tarefasAtualizadas);
+    } catch (error) {
+      console.error('Erro ao deletar tarefa:', error);
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.area}>
         <Text style={styles.titulo}>Minhas Tarefas</Text>
 
-        {/* Botões para alternar entre tarefas feitas e pendentes */}
+        {}
         <View style={styles.botaoContainer}>
-          {/* Botão de alternar entre tarefas feitas ou pendentes */}
+          {}
           <TouchableOpacity
             style={[styles.botaoTarefa, styles.botaoFeito]}
             onPress={() => setShowFeitas(!showFeitas)}
           >
             <Text style={styles.botaoTarefaText}>
-              {showFeitas ? 'Mostrar Pendentes' : '🧾 Mostrar Feitas'}
+              {showFeitas ? '🧾 Mostrar Pendentes' : '🧾 Tarefas Feitas'}
             </Text>
           </TouchableOpacity>
 
-          {/* Botão "Nova Tarefa" */}
+          {}
           <TouchableOpacity style={styles.botaoTarefa} onPress={() => setModalVisible(true)}>
             <Text style={styles.botaoTarefaText}>➕ Nova Tarefa</Text>
           </TouchableOpacity>
@@ -90,13 +99,23 @@ export default function HomeScreen() {
                 <Text style={styles.cardTitulo}>{tarefa.titulo}</Text>
                 <Text style={styles.cardDesc}>{tarefa.descricao}</Text>
 
-                {showFeitas === false && tarefa.feita === 0 && ( // Mostrar o botão para marcar como feita apenas para tarefas pendentes
-                  <TouchableOpacity
-                    style={[styles.botaoTarefa, styles.botaoFeito]}
-                    onPress={() => marcarComoFeita(tarefa.id)} // Marca a tarefa como feita
-                  >
-                    <Text style={styles.botaoTarefaText}>🆗 Tarefa Feita</Text>
-                  </TouchableOpacity>
+                {showFeitas === false && tarefa.feita === 0 && (
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <TouchableOpacity
+                      style={[styles.botaoTarefa, styles.botaoFeito, { flex: 1, marginRight: 5 }]}
+                      onPress={() => marcarComoFeita(tarefa.id)}
+                    >
+                      <Text style={styles.botaoTarefaText}>🆗 Feita</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[styles.botaoTarefa, { backgroundColor: '#cc0000', flex: 1, marginLeft: 5 }]}
+                      onPress={() => excluirTarefa(tarefa.id)}
+                    >
+                      <Text style={styles.botaoTarefaText}>🗑️ Excluir</Text>
+                    </TouchableOpacity>
+                  </View>
+
                 )}
               </View>
             ))
@@ -106,7 +125,7 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      {/* Modal para adicionar nova tarefa */}
+      {}
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
