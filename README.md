@@ -14,7 +14,8 @@ O **HelpMe - Apoio Estudantil** é um aplicativo mobile desenvolvido com React N
 
 ### Pré-requisitos
 - Node.js instalado
-- Expo CLI instalado (`npm install -g expo-cli`)
+- React instalado
+- Expo instalado (`npm install -g expo`)
 - Editor de código (ex: VS Code)
 
 ### Passos para rodar o app
